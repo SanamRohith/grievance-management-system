@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/dashboard2.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <span class="nav-title" id="siteTitle">GRIEVANCE SYSTEM</span>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+
+        <!-- Hamburger Menu for Mobile -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+    <div class="sidebar" id="sidebar">
+        <h2><span class="user-name">Welcome,</span> <span class="welcome-bold">{{ profile.user.first_name }}</span></h2>
+        <ul>
+            <li><a href="{% url 'lodge_complaint' %}">Lodge Grievance</a></li>
+            <li><a href="{% url 'complaint_history' %}">Grievance History</a></li>
+            <li><a href="{% url 'profile' %}">Update Profile</a></li>
+            <li><a href="{% url 'password_reseted' %}">Password Reset</a></li>
+        </ul>
+    </div>
+    <main>
+        <section>
+            <h2>Your Dashboard</h2>
+            <p>Welcome to your dashboard, <span class="welcome-bold">{{ profile.user.first_name }} {{ profile.user.last_name }}</span>. Here you can manage your profile, reset your password, lodge new Grievances, and view your Grievance history.</p>
+        </section>
+        <section class="profile-summary" id="profile-summary">
+            <h3>Profile Summary</h3>
+            <div><strong>Username:</strong> {{ profile.user.username }}</div>
+            <div><strong>First Name:</strong> {{ profile.user.first_name }}</div>
+            <div><strong>Last Name:</strong> {{ profile.user.last_name }}</div>
+            <div><strong>Email:</strong> {{ profile.user.email }}</div>
+            <div><strong>Role:</strong> {{ profile.role }}</div>
+            <div><strong>Contact Number:</strong> {{ profile.contact_number }}</div>
+            <div><strong>Department:</strong> {{ profile.get_department_display }}</div>
+        </section>
+        <section class="dashboard-overview">
+            <div class="dashboard-card">
+                <h3>Total Grievances</h3>
+                <p>{{ total_complaints }}</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>In Progress Grievances</h3>
+                <p>{{ in_progress_complaints }}</p>
+            </div>
+            <div class="dashboard-card">
+                <h3>Resolved Grievances</h3>
+                <p>{{ resolved_complaints }}</p>
+            </div>
+        </section>
+    </main>
+    <div class="footer">
+        <p>&copy; 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div> 
+    <script>
+        function toggleSidebar() {
+            document.body.classList.toggle('collapsed');
+        }
+
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

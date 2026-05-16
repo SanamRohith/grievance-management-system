@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/profile2.css' %}">
+</head>
+<body>
+    <nav>
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <span class="nav-title" id="siteTitle">GRIEVANCE SYSTEM</span>
+        <div class="nav-links">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <h2>GrievanceMS</h2>
+        <ul>
+            <li><a href="{% url 'lodge_complaint' %}">Lodge Grievance</a></li>
+            <li><a href="{% url 'complaint_history' %}">Grievance History</a></li>
+            <li><a href="{% url 'profile' %}">Profile Update</a></li>
+            <li><a href="{% url 'password_reseted' %}">Password Reset</a></li>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section>
+            <h2>Your Profile</h2>
+            <form id="profileForm" method="post">
+                {% csrf_token %}
+                
+                {{ user_form.username.label_tag }}
+                {{ user_form.username }}
+
+                {{ user_form.first_name.label_tag }}
+                {{ user_form.first_name }}
+
+                {{ user_form.last_name.label_tag }}
+                {{ user_form.last_name }}
+
+                {{ user_form.email.label_tag }}
+                {{ user_form.email }}
+                
+                {{ profile_form.contact_number.label_tag }}
+                {{ profile_form.contact_number }}
+
+                <div class="form-group">
+                    {{ profile_form.department.label_tag }}
+                    {{ profile_form.department }}
+                </div>
+    
+                <div class="form-group">
+                    {{ profile_form.year_of_study.label_tag }}
+                    {{ profile_form.year_of_study }}
+                </div>
+                {% for error in profile_form.year_of_study.errors %}
+                    <div class="error-message">{{ error }}</div>
+                {% endfor %}
+                <br>
+    
+
+                <button type="submit">Update Profile</button>
+            </form>
+        </section>
+    </main>
+
+    <div class="footer">
+        <p>&copy; 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.body.classList.toggle('collapsed');
+        }
+
+        function toggleMenu() {
+            const links = document.querySelector('.nav-links');
+            links.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Grievance System</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/register.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" id="siteTitle">GRIEVANCE SYSTEM</a>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+
+        <!-- Hamburger Menu for Mobile -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="container">
+            <main>
+                <h2>Registration Panel</h2>
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                
+                    <!-- Username Field -->
+                    <label for="id_username">Username* (Register with your respective RollNo)</label>
+                    {{ form.username }}
+                    {% for error in form.username.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- First Name Field -->
+                    <label for="id_first_name">First name*</label>
+                    {{ form.first_name }}
+                    {% for error in form.first_name.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Last Name Field -->
+                    <label for="id_last_name">Last name*</label>
+                    {{ form.last_name }}
+                    {% for error in form.last_name.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Role Field -->
+                    <label for="id_role">Role*</label>
+                    {{ form.role }}
+                    {% for error in form.role.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Department Field -->
+                    <label for="id_department">Department*</label>
+                    {{ form.department }}
+                    {% for error in form.department.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Year of Study Field (for students) -->
+                    <label for="id_year_of_study">Year of Study</label>
+                    {{ form.year_of_study }}
+                    {% for error in form.year_of_study.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Email Field -->
+                    <label for="id_email">Email address*</label>
+                    {{ form.email }}
+                    {% for error in form.email.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Contact Number Field -->
+                    <label for="id_contact_number">Contact number*</label>
+                    {{ form.contact_number }}
+                    {% for error in form.contact_number.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Password Field -->
+                    <label for="id_password">Password*</label>
+                    {{ form.password }}
+                    {% for error in form.password.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <!-- Password Confirmation Field -->
+                    <label for="id_password_confirm">Password confirmation*</label>
+                    {{ form.password_confirm }}
+                    {% for error in form.password_confirm.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                
+                    <button type="submit">Register</button>
+                </form>
+                
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const roleField = document.getElementById("id_role");
+        const yearOfStudyField = document.getElementById("id_year_of_study");
+
+        function toggleYearOfStudy() {
+            if (roleField.value === "staff") {
+                yearOfStudyField.disabled = true;
+                yearOfStudyField.value = ""; // Optional: Clear the field
+            } else {
+                yearOfStudyField.disabled = false;
+            }
+        }
+
+        // Initial check in case "staff" is pre-selected
+        toggleYearOfStudy();
+
+        // Check on role change
+        roleField.addEventListener("change", toggleYearOfStudy);
+    });
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student/Staff Login</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/student_login.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" id="siteTitle">GRIEVANCE SYSTEM</a>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+
+        <!-- Hamburger Menu for Mobile -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="login-container">
+            <h2>Log In as Student/Staff Member</h2>
+
+            <!-- Display messages -->
+            {% if messages %}
+                <div class="messages" style="text-align: center; color: red;">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+                <form id="loginForm" method="POST" action="{% url 'student_login' %}" autocomplete="off">
+                {% csrf_token %}
+                <label for="username">Username*</label>
+                <input type="text" id="username" name="username" required value="{{ form.username.value|default:'' }}">
+                <span id="usernameError" class="errors">{{ form.username.errors }}</span>
+
+                <label for="password">Password*</label>
+                <input type="password" id="password" name="password" required>
+                <span id="passwordError" class="errors">{{ form.password.errors }}</span>
+
+                <div class="show-password-container">
+                    <input type="checkbox" id="showPassword">
+                    <label for="showPassword">Show Password</label>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="login-options">
+                <a href="{% url 'register' %}">Register Now</a> |
+                <a href="{% url 'password_reset_form' %}">Forgot Password?</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // JavaScript to toggle password visibility
+        document.getElementById('showPassword').addEventListener('click', function() {
+            var passwordField = document.getElementById('password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        });
+    </script>
+</body>
+</html>

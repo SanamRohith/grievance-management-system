@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Grievance Management System</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/login.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#" id="siteTitle">GRIEVANCE SYSTEM</a>
+
+        <!-- Navigation Links -->
+        <div class="nav-links" >
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+
+        <!-- Hamburger Menu for Mobile -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <!-- Main Login Section -->
+    <div class="main-login">
+        <h1>Grievance Management System</h1>
+        <p>Choose your Preferred Login Below</p>
+        <div class="login-options">
+            <div class="login-option">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUaaCmVssmaJOUN81ME-8C0PlRJuAbY_oDOA&s" alt="Student/Staff Login">
+                <button id="studentLoginButton">Student/Staff Login</button>
+                <script>
+                    document.getElementById('studentLoginButton').onclick = function() {
+                        location.href = "{% url 'student_login' %}";
+                    };
+                </script>
+            </div>
+            <div class="login-option">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfkmZgyqPcYwV0duzWq4cUGCV7EGysu01IOA&s" alt="Admin Login">
+                <button id="adminLoginButton">Admin Login</button>
+                <script>
+                    document.getElementById('adminLoginButton').onclick = function() {
+                        location.href = "{% url 'admin:login' %}";
+                    };
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

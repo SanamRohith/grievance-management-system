@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Grievance Management System</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/logout.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <span class="nav-title" id="siteTitle">GRIEVANCE SYSTEM</span>
+        <div class="nav-links" >
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="main">
+            <div>
+                <h3>You have been logged out</h3>
+                <p>Thank you for using. Click below to log in again.</p>
+                <button id="loginButton">Login</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="footer">
+        <p>&copy; 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div>
+
+    <script>
+        document.getElementById('loginButton').onclick = function() {
+            location.href = "{% url 'login' %}";
+        };
+    </script>
+</body>
+</html>

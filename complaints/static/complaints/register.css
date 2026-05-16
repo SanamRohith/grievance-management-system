@@ -1,0 +1,172 @@
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #ecf0f1;
+            font-size: 22px;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .hamburger div {
+            width: 13px;
+            height: 2px;
+            background-color: #ecf0f1;
+            margin: 1px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            nav .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #2c3e50;
+            }
+
+            nav .nav-links.active {
+                display: flex;
+                padding-top:20px;
+            }
+
+            .hamburger {
+                display: flex;
+                margin-left: auto;
+            }
+        }
+
+        .footer {
+            background-color: #f5f2f2;
+            padding: 10px 20px;
+            text-align: center;
+            border-top: 1px solid #ccc;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            color: black;
+        }
+
+        /* Main Content Styles */
+       .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .container {
+    width: 600px; /* Increased from 600px to 800px */
+    margin-left: 40px;
+    margin-right: 40px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+        main h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        
+        form input,
+        form select {
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        form button:hover {
+            background-color: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .content {
+                margin-top: 80px;
+                margin-bottom: 40px;
+            }
+
+            .footer {
+                position: relative; /* Allow footer to flow normally */
+            }
+        }

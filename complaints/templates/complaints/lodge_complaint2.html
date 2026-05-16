@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lodge Complaint</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/lodge_complaint2.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <span class="nav-title" id="siteTitle">GRIEVANCE SYSTEM</span>
+        <div class="nav-links">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        <!-- Hamburger Menu for Mobile -->
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <h2>GrievanceMS</h2>
+        <ul>
+            <li><a href="{% url 'lodge_complaint' %}">Lodge Grievance</a></li>
+            <li><a href="{% url 'complaint_history' %}">Grievance History</a></li>
+            <li><a href="{% url 'profile' %}">Profile Update</a></li>
+            <li><a href="{% url 'password_reseted' %}">Password Reset</a></li>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section>
+            <h2>Add Grievance:</h2>
+
+            <!-- Message display section -->
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <br>
+
+            <form id="complaintForm" method="POST" action="{% url 'lodge_complaint' %}" enctype="multipart/form-data" autocomplete="off" onsubmit="handleFormSubmit(event)" >
+                {% csrf_token %}
+                
+                <label for="subject">Subject*</label>
+                <input type="text" id="subject" name="subject" value="{{ form.subject.value }}" required>
+        
+                <label for="type">Type of Grievance*</label>
+                <select id="type" name="type" required>
+                    <option value="" disabled selected>-- Select --</option>
+                    <option value="Infrastructure" {% if form.type.value == "Infrastructure" %}selected{% endif %}>Infrastructure</option>
+                    <option value="Faculty" {% if form.type.value == "Faculty" %}selected{% endif %}>Faculty</option>
+                    <option value="Women Grievance" {% if form.type.value == "Women Grievance" %}selected{% endif %}>Women Grievance</option>
+                    <option value="Ragging" {% if form.type.value == "Ragging" %}selected{% endif %}>Ragging</option>
+                    <option value="Hostel" {% if form.type.value == "Hostel" %}selected{% endif %}>Hostel</option>
+                    <option value="Transport" {% if form.type.value == "Transport" %}selected{% endif %}>Transport</option>
+                    <option value="Canteen" {% if form.type.value == "Canteen" %}selected{% endif %}>Food(Canteen)</option>
+                    <option value="Other" {% if form.type.value == "Other" %}selected{% endif %}>Other</option>
+                </select>
+        
+                <label for="description">Description*</label>
+                <textarea id="description" name="description" required>{{ form.description.value }}</textarea>
+
+                <!-- File upload fields -->
+                <label for="file">Upload File (optional, image or document)</label>
+                <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx">
+        
+                <button type="submit">Submit</button>   
+            </form>
+        </section>
+    </main>
+
+    <div class="footer">
+        <p>© 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div>
+
+<script>
+        function toggleSidebar() {
+            document.body.classList.toggle('collapsed');
+        }
+
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+    
+</body>
+</html>

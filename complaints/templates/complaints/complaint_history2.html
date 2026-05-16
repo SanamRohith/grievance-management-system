@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint History</title>
+    <link rel="icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'complaints/complaint_history2.css' %}">
+</head>
+<body>
+    <nav>
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <span class="nav-title" id="siteTitle">GRIEVANCE SYSTEM</span>
+        <div class="nav-links">
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <h2>GrievanceMS</h2>
+        <ul>
+            <li><a href="{% url 'lodge_complaint' %}">Lodge Grievance</a></li>
+            <li><a href="{% url 'complaint_history' %}">Grievance History</a></li>
+            <li><a href="{% url 'profile' %}">Update Profile</a></li>
+            <li><a href="{% url 'password_reseted' %}">Password Reset</a></li>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section>
+            <h2>Grievance History</h2>
+            <form method="GET" action="" class="filter-form">
+                <label for="status">Filter by Status:</label>
+                <select name="status" id="status">
+                    <option value="">All</option>
+                    {% for status, label in status_choices %}
+                        <option value="{{ status }}" {% if status == status_filter %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Apply Filters</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Type</th>
+                        <th>Filed Date</th>
+                        <th>Status</th>
+                        <th>Uploaded File</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr 
+                        data-first-name="{{ complaint.user.first_name }}" 
+                        data-last-name="{{ complaint.user.last_name }}"
+                        data-department="{{ complaint.user.profile.department|upper }}"
+                        data-contact="{{ complaint.user.profile.contact_number }}"
+                        data-year-of-study="{% if complaint.user.profile.role == 'student' %}{{ complaint.user.profile.year_of_study }}{% else %}N/A{% endif %}"
+                    >
+                        <td>{{ complaint.id }}</td>
+                        <td>{{ complaint.subject }}</td>
+                        <td>{{ complaint.type }}</td>
+                        <td>{{ complaint.date_filed }}</td>
+                        <td>{{ complaint.status }}</td>
+                        <td>
+                            {% if complaint.image %}
+                                <a href="{{ complaint.image.url }}" target="_blank">
+                                    <img src="{{ complaint.image.url }}" alt="Complaint Image" style="width: 50px; height: 50px;">
+                                </a>
+                            {% endif %}
+                            {% if complaint.file %}
+                                <a href="{{ complaint.file.url }}" target="_blank">View File</a>
+                            {% elif not complaint.image %}
+                                No File/Image
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button onclick="toggleDescription('{{ complaint.id }}')">Details</button>
+                            <button onclick="printAsPDF('{{ complaint.id }}')">Print as PDF</button>
+                            <div class="description" id="description-{{ complaint.id }}">
+                                {{ complaint.description }}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">No complaints found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div class="footer">
+        <p>&copy; 2024 Grievance Management System. All rights reserved.</p>
+        <p>Contact us: miniprojectcst05@gmail.com | +123 456 7890</p>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.body.classList.toggle('collapsed');
+        }
+
+        function toggleDescription(id) {
+            const descriptionElement = document.getElementById(`description-${id}`);
+            descriptionElement.style.display = descriptionElement.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function printAsPDF(id) {
+            const complaintRow = document.getElementById(`description-${id}`).parentNode.parentNode;
+            const complaintId = complaintRow.children[0].textContent.trim();
+            const subject = complaintRow.children[1].textContent.trim();
+            const complaintType = complaintRow.children[2].textContent.trim();
+            const filedDate = complaintRow.children[3].textContent.trim();
+            const status = complaintRow.children[4].textContent.trim();
+            const description = document.getElementById(`description-${id}`).textContent.trim();
+
+
+            // Access the data-* attributes for hidden fields
+            const firstName = complaintRow.dataset.firstName;
+            const lastName = complaintRow.dataset.lastName;
+            const department = complaintRow.dataset.department;
+            const contact = complaintRow.dataset.contact;
+            const yearOfStudy = complaintRow.dataset.yearOfStudy;
+
+            const printableContent = `
+                <div style="border: 2px solid black; padding: 10px; margin: 10px;">
+                    <h2 style="text-align: center;">Grievance Details</h2>
+                    <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                    <p><strong>Department:</strong> ${department}</p>
+                    <p><strong>Contact:</strong> ${contact}</p>
+                    <p><strong>Year of Study:</strong> ${yearOfStudy}</p>
+                    <hr>
+                    <p><strong>ID:</strong> ${complaintId}</p>
+                    <p><strong>Subject:</strong> ${subject}</p>
+                    <p><strong>Complaint Type:</strong> ${complaintType}</p>
+                    <p><strong>Filed Date:</strong> ${filedDate}</p>
+                    <p><strong>Status:</strong> ${status}</p>
+                    <p><strong>Description:</strong> ${description}</p>
+                </div>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print Complaint</title></head><body>');
+            printWindow.document.write(printableContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function toggleMenu() {
+            const links = document.querySelector('.nav-links');
+            links.classList.toggle('active');
+        }
+        
+    </script>
+</body>
+</html>
