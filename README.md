@@ -129,6 +129,50 @@ http://127.0.0.1:8000/
 5. User Tracks Complaint Status
 
 ---
+# Project Screenshots
+
+## Home Page
+![Home Page](screenshots/home.png)
+
+---
+
+## User Login
+![User Login](screenshots/login.png)
+
+---
+
+## User Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## Lodge Grievance
+![Lodge Grievance](screenshots/lodge_grievance.png)
+
+---
+
+## Grievance History
+![Grievance History](screenshots/grievance_history.png)
+
+---
+
+## Password Reset
+![Password Reset](screenshots/password_reset.png)
+
+---
+
+## Admin Login
+![Admin Login](screenshots/admin_login.png)
+
+---
+
+## Admin Dashboard
+![Admin Dashboard](screenshots/admin_dashboard.png)
+
+---
+
+## Admin Complaint Management
+![Admin Complaint Management](screenshots/admin_side_complaints.png)
 
 # Objective
 
